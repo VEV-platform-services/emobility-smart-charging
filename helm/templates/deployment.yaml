@@ -21,7 +21,7 @@ spec:
         - name: github
       containers:
         - name: {{ .Chart.Name }}
-          image: {{ .Values.image.repository }}/{{ .Values.image.name }}:{{ .Values.image.tag | default $.Chart.AppVersion }}
+          image: {{ .Values.image.repository }}/{{ .Values.image.name }}@{{ .Values.image.sha }}
           ports:
             - containerPort: 8080
           resources:
