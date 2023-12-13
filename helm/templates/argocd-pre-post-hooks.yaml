@@ -1,0 +1,60 @@
+{{- if (eq .Values.environment "qa") }}
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: wait-job
+  annotations:
+    argocd.argoproj.io/hook: PreSync
+spec:
+  template:
+    spec:
+      containers:
+      - name: wait-container
+        image: ghcr.io/vev-platform-services/wait-for-github-action:main
+        imagePullPolicy: Always
+        env:
+        - name: GITHUB_TOKEN
+          valueFrom:
+            secretKeyRef:
+              name: argocd-hooks-github-token
+              key: token
+        - name: GITHUB_REPOSITORY
+          value: vev-platform-services/emobility-smart-charging
+        - name: WORKFLOW_NAME
+          value: "e2e-integration-tests-workflow"
+        - name: GITHUB_SHA
+          value: {{ .Values.repository.github_sha }}
+        args: 
+          - "wait"
+      restartPolicy: Never
+{{- else if eq .Values.environment "dev" }}
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: trigger-job
+  annotations:
+    argocd.argoproj.io/hook: PostSync
+spec:
+  template:
+    spec:
+      containers:
+      - name: trigger-container
+        image: ghcr.io/vev-platform-services/wait-for-github-action:main
+        imagePullPolicy: Always
+        env:
+        - name: GITHUB_TOKEN
+          valueFrom:
+            secretKeyRef:
+              name: argocd-hooks-github-token
+              key: token
+        - name: GITHUB_REPOSITORY
+          value: vev-platform-services/emobility-smart-charging
+        - name: WORKFLOW_NAME
+          value: "e2e-integration-tests-workflow"
+        - name: GITHUB_BRANCH
+          value: main
+        args: 
+          - "trigger"
+      restartPolicy: Never
+{{- end }} 
