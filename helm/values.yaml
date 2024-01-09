@@ -3,10 +3,9 @@ image:
   name: vev-smart-charging
 
 deployment:
-  replicas: 2
   memory:
-    request: "1Gi"
-    limit: "1Gi"
+    request: "256Mi"
+    limit: "256Mi"
   cpu:
-    request: 1
-    limit: 1
+    request: 0.1
+    limit: 0.2
