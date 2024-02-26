@@ -1,0 +1,12 @@
+version: '3.8'
+    
+
+services:
+  smart-charging:
+    build:
+      dockerfile: Dockerfile
+      network: host
+    container_name: smart-charging
+    ports:
+      - "8006:8080"
+    restart: always
