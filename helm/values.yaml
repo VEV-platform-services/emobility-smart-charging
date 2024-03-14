@@ -8,4 +8,4 @@ deployment:
     limit: "256Mi"
   cpu:
     request: 0.1
-    limit: 0.2
+    limit: 0.4
