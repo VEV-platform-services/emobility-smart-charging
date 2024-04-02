@@ -50,17 +50,7 @@ spec:
                 name: {{ .Chart.Name }}
                 port:
                   number: 8080
-    - host: "{{ .Values.ingress.host }}"
-      http:
-        paths:
-          - path: /playground
-            pathType: Prefix
-            backend:
-              service:
-                name: {{ .Chart.Name }}
-                port:
-                  number: 8080
-    - host: "*.{{ .Values.ingress.host }}"
+    - host: "smart-charging-playground.{{ .Values.ingress.host }}"
       http:
         paths:
           - path: /playground
