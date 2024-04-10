@@ -3,7 +3,7 @@
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: wait-job
+  name: smart-charging-wait-job
   annotations:
     argocd.argoproj.io/hook: PreSync
 spec:
@@ -32,7 +32,7 @@ spec:
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: trigger-job
+  name: smart-charging-trigger-job
   annotations:
     argocd.argoproj.io/hook: PostSync
 spec:
