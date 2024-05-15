@@ -543,7 +543,8 @@ public class StrategyAlgorithmic extends Strategy {
 					carAssignmentLowestPriority.getCurrentPerStationPhase(violatingK); 
 					
 			double plannedCurrent = consumption[fuseTreeException.getPhaseWithHighestDelta().asInt()-1]; 
-			
+			log(2, "Car priorities : " + sortedViolatingCars);
+
 			log(2, "Car n=" + carAssignmentLowestPriority.car.getId() + " has lowest priority (" 
 					+ sortedViolatingCars.get(0).value 
 					+ ") in violatingK=" + violatingK + ", plannedCurrent=" + Util.formatDouble(plannedCurrent) + "A");
