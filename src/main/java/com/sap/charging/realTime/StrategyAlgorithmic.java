@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
+import com.sap.charging.realTime.util.Scheduler;
 import com.sap.charging.model.Car;
 import com.sap.charging.model.ChargingStation;
 import com.sap.charging.model.EnergyPriceHistory;
@@ -40,7 +41,7 @@ public class StrategyAlgorithmic extends Strategy {
 	private boolean rescheduleCarsWith0A = true;  
 	
 	private final StrategyAlgorithmicChargeScheduler scheduler;
-	
+	private final Scheduler fairShareScheduler = new Scheduler();
 	public StrategyAlgorithmic() {
 		this(CarDepartureForecast.getDefaultCarDepartureForecast(), null);
 	}
@@ -817,7 +818,21 @@ public class StrategyAlgorithmic extends Strategy {
 		resolveViolations(state, violatingTimeslots);
 	}
 	
-	
+	@Override
+	public void reactFairShare(State state){
+		this.distributeEneregyFairly(state);
+	}
+
+	private void distributeEneregyFairly(State state){
+		for (CarAssignment carAssignment : state.getCurrentCarAssignments()) {
+			Car car = carAssignment.car;
+			// ChargingStation chargingStation = carAssignment.chargingStation;
+			int minimalCurrent = 6;
+			fairShareScheduler.initializeChargingPlan(car, minimalCurrent);
+
+		}
+	}
+
 	@Override
 	public String getMethod() {
 		return schedule == null ? 

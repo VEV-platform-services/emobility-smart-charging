@@ -37,4 +37,9 @@ public class StrategyMock extends Strategy {
 		return "realTimeMock";
 	}
 
+	@Override
+	public void reactFairShare(State state) {
+		// TODO Auto-generated method stub
+	}
+
 }

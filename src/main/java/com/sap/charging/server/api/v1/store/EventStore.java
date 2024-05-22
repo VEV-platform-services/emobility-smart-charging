@@ -17,6 +17,7 @@ import com.sap.charging.sim.event.EventCarArrival;
 import com.sap.charging.sim.event.EventCarDeparture;
 import com.sap.charging.sim.event.EventCarFinished;
 import com.sap.charging.sim.event.EventEnergyPriceChange;
+import com.sap.charging.sim.event.EventFairShare;
 import com.sap.charging.sim.event.EventReoptimize;
 import com.sap.charging.sim.event.EventType;
 import com.sap.charging.util.TimeUtil;
@@ -64,6 +65,10 @@ public class EventStore {
 			break;
 		case Reoptimize:
 			event = new EventReoptimize(timestamp);
+			break;
+
+		case FairShare:
+			event = new EventFairShare(timestamp);
 			break;
 		default:
 			throw new UnknownEventTypeException("eventType=" + eventType + " not implemented!");

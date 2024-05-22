@@ -9,6 +9,7 @@ import com.sap.charging.sim.event.EventCarDeparture;
 import com.sap.charging.sim.event.EventCarFinished;
 import com.sap.charging.sim.event.EventEnergyPriceChange;
 import com.sap.charging.sim.event.EventReoptimize;
+import com.sap.charging.sim.event.EventFairShare;
 import com.sap.charging.util.Loggable;
 
 /**
@@ -51,6 +52,9 @@ public abstract class Strategy implements Loggable{
 		if (event instanceof EventReoptimize) {
 			reactReoptimizeWrapper(currentState); 
 		}
+		if (event instanceof EventFairShare) {
+			reactFairShareWrapper(currentState);
+		}
 	}
 	
 	// Called when a car arrives
@@ -65,7 +69,7 @@ public abstract class Strategy implements Loggable{
 	}
 	public abstract void reactCarArrival(State state, Car newCar);
 	
-	
+
 	// Called when a car finishes charging
 	public final void reactCarFinishedWrapper(State state, Car car) {
 		if (state.isCarPowerAssigned(car)) {
@@ -76,9 +80,7 @@ public abstract class Strategy implements Loggable{
 	}
 	public abstract void reactCarFinished(State state, Car carFinished);
 	
-	
-	
-	
+
 	// Called when a car departs
 	public final void reactCarDepartureWrapper(State state, Car car) {
 		// Remove power consumption assignment
@@ -97,7 +99,8 @@ public abstract class Strategy implements Loggable{
 		this.reactCarDeparture(state, car);
 	}
 	public abstract void reactCarDeparture(State state, Car carLeaving);
-	
+
+
 	// A strategy does not HAVE to react in this case: energy price change
 	public final void reactEnergyPriceChangeWrapper(State state, EnergyPriceHistory newEnergyPriceHistory) {
 		/*double currentSum = state.getCurrentPowerAssignments().stream().mapToDouble(p -> p.phase1).sum() +
@@ -112,6 +115,11 @@ public abstract class Strategy implements Loggable{
 	public final void reactReoptimizeWrapper(State state) {
 		this.reactReoptimize(state); 
 	}
+
+	public final void reactFairShareWrapper(State state) {
+		this.reactFairShare(state);
+	}
+	public abstract void reactFairShare(State state);
 	
 	public void reactReoptimize(State state) {
 		throw new AbstractMethodError("Strategy method=" + this.getMethod() + " must override "

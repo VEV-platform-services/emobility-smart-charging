@@ -41,6 +41,7 @@ public class StrategyTest extends SimulationUnitTest {
 		final AtomicBoolean reactedCarDeparture = new AtomicBoolean(false);
 		final AtomicBoolean reactedCarArrival = new AtomicBoolean(false);
 		final AtomicBoolean reactedReoptimize = new AtomicBoolean(false);
+		final AtomicBoolean reactedFairShare = new AtomicBoolean(false);
 		
 		Car car = dataSim.getCar(0); 
 		Car car2 = dataSim.getCar(1); 
@@ -73,6 +74,12 @@ public class StrategyTest extends SimulationUnitTest {
 			@Override
 			public void reactReoptimize(State state) {
 				reactedReoptimize.set(true); 
+			}
+
+			@Override
+			public void reactFairShare(State state) {
+				// TODO Auto-generated method stub
+				reactedFairShare.set(true);
 			}
 
 			@Override

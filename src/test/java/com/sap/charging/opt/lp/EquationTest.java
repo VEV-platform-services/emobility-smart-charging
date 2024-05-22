@@ -4,8 +4,6 @@ import static org.junit.Assert.*;
 
 import org.junit.jupiter.api.Test;
 
-import com.sap.charging.opt.lp.Equation;
-import com.sap.charging.opt.lp.Variable;
 import com.sap.charging.opt.lp.Equation.ConstraintType;
 
 public class EquationTest {
