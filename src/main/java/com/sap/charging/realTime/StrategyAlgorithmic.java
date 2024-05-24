@@ -820,17 +820,23 @@ public class StrategyAlgorithmic extends Strategy {
 	
 	@Override
 	public void reactFairShare(State state){
-		this.distributeEneregyFairly(state);
+		this.execute(state);
 	}
 
-	private void distributeEneregyFairly(State state){
+	private void execute(State state){
+		int minimalCurrent = 6;
+		Fuse rootFuse = state.fuseTree.getRootFuse();
+		double fuseAmperage = rootFuse.getFusePhase(Phase.PHASE_1);
+		int chargingStations = rootFuse.getChargingStationChildren().size();
+		log(2, "Optimizing plans with Faire share policy for fuse size"+fuseAmperage);
 		for (CarAssignment carAssignment : state.getCurrentCarAssignments()) {
 			Car car = carAssignment.car;
-			// ChargingStation chargingStation = carAssignment.chargingStation;
-			int minimalCurrent = 6;
-			fairShareScheduler.initializeChargingPlan(car, minimalCurrent);
+			ChargingStation charger = carAssignment.chargingStation;
+			fairShareScheduler.distributeEnergy(car, minimalCurrent, fuseAmperage/chargingStations, charger);
 
+			
 		}
+		
 	}
 
 	@Override
