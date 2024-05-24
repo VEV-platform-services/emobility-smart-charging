@@ -6,7 +6,6 @@ import java.util.List;
 
 import org.junit.jupiter.api.Test;
 
-import com.sap.charging.dataGeneration.DataGeneratorRandom;
 import com.sap.charging.model.ChargingStation;
 import com.sap.charging.model.Fuse;
 import com.sap.charging.model.FuseTree;

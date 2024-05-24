@@ -93,5 +93,10 @@ public class StrategyGreedyAssignment extends Strategy {
 	public static String getMethodStatic() {
 		return "realTimeGreedyAssignment";
 	}
+
+
+	@Override
+	public void reactFairShare(State state) {
+	}
 	
 }

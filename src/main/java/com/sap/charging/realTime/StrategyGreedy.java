@@ -79,6 +79,11 @@ public class StrategyGreedy extends Strategy {
 	public static String getMethodStatic() {
 		return "realTimeGreedy";
 	}
+
+	@Override
+	public void reactFairShare(State state) {
+		// TODO Auto-generated method stub
+	}
 	
 
 }

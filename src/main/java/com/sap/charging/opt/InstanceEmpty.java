@@ -9,7 +9,6 @@ import com.sap.charging.model.Car;
 import com.sap.charging.model.ChargingStation;
 import com.sap.charging.model.EnergyPriceHistory;
 import com.sap.charging.model.FuseTree;
-import com.sap.charging.opt.Instance;
 
 public class InstanceEmpty extends Instance{
 

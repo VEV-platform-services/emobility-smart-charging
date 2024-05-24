@@ -79,5 +79,10 @@ public class StrategyFromDayahead extends Strategy {
 	public static String getMethodStatic() {
 		return "realTimeFromDayAhead";
 	}
+
+	@Override
+	public void reactFairShare(State state) {
+		// TODO Auto-generated method stub
+	}
 	
 }

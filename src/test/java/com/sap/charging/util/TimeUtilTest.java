@@ -6,8 +6,6 @@ import org.junit.Assert;
 import org.junit.jupiter.api.Test;
 
 
-import com.sap.charging.util.TimeUtil;
-
 public class TimeUtilTest {
 
 

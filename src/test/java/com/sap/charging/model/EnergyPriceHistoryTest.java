@@ -11,7 +11,6 @@ import org.junit.jupiter.api.Test;
 import com.sap.charging.dataGeneration.DataGenerator;
 import com.sap.charging.dataGeneration.DataGeneratorRandom;
 import com.sap.charging.dataGeneration.common.DefaultDataGenerator;
-import com.sap.charging.model.EnergyPriceHistory;
 import com.sap.charging.util.JSONKeys;
 
 public class EnergyPriceHistoryTest {

@@ -10,7 +10,8 @@ public enum EventType {
 	CarDeparture,
 	CarFinished,
 	EnergyPriceChange,
-	Reoptimize;
+	Reoptimize,
+	FairShare;
 	
 	public static Event fromJSON(JSONObject jsonObject) {
 		
@@ -30,6 +31,8 @@ public enum EventType {
 			return new EventEnergyPriceChange(jsonObject);
 		case Reoptimize:
 			return new EventReoptimize(jsonObject); 
+		case FairShare: 
+			return new EventFairShare(jsonObject);
 		default:
 			return null;
 		}

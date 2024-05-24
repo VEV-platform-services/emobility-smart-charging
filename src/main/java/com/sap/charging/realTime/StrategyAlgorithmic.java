@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
+import com.sap.charging.realTime.util.Scheduler;
 import com.sap.charging.model.Car;
 import com.sap.charging.model.ChargingStation;
 import com.sap.charging.model.EnergyPriceHistory;
@@ -40,7 +41,7 @@ public class StrategyAlgorithmic extends Strategy {
 	private boolean rescheduleCarsWith0A = true;  
 	
 	private final StrategyAlgorithmicChargeScheduler scheduler;
-	
+	private final Scheduler fairShareScheduler = new Scheduler();
 	public StrategyAlgorithmic() {
 		this(CarDepartureForecast.getDefaultCarDepartureForecast(), null);
 	}
@@ -543,7 +544,8 @@ public class StrategyAlgorithmic extends Strategy {
 					carAssignmentLowestPriority.getCurrentPerStationPhase(violatingK); 
 					
 			double plannedCurrent = consumption[fuseTreeException.getPhaseWithHighestDelta().asInt()-1]; 
-			
+			log(2, "Car priorities : " + sortedViolatingCars);
+
 			log(2, "Car n=" + carAssignmentLowestPriority.car.getId() + " has lowest priority (" 
 					+ sortedViolatingCars.get(0).value 
 					+ ") in violatingK=" + violatingK + ", plannedCurrent=" + Util.formatDouble(plannedCurrent) + "A");
@@ -816,7 +818,27 @@ public class StrategyAlgorithmic extends Strategy {
 		resolveViolations(state, violatingTimeslots);
 	}
 	
-	
+	@Override
+	public void reactFairShare(State state){
+		this.execute(state);
+	}
+
+	private void execute(State state){
+		int minimalCurrent = 6;
+		Fuse rootFuse = state.fuseTree.getRootFuse();
+		double fuseAmperage = rootFuse.getFusePhase(Phase.PHASE_1);
+		int chargingStations = rootFuse.getChargingStationChildren().size();
+		log(2, "Optimizing plans with Faire share policy for fuse size"+fuseAmperage);
+		for (CarAssignment carAssignment : state.getCurrentCarAssignments()) {
+			Car car = carAssignment.car;
+			ChargingStation charger = carAssignment.chargingStation;
+			fairShareScheduler.distributeEnergy(car, minimalCurrent, fuseAmperage/chargingStations, charger);
+
+			
+		}
+		
+	}
+
 	@Override
 	public String getMethod() {
 		return schedule == null ? 
