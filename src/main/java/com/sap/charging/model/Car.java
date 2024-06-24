@@ -154,6 +154,12 @@ public class Car implements JSONSerializable, Loggable {
 
 	private CarProcessData carProcessData;
 
+	/**
+	 * Mnimal charging required
+	 */
+	@JsonIgnore
+	public int minChargingRequired = 6;
+
 	@JsonCreator
 	public Car(@JsonProperty(value="id", required=true) int id, @JsonProperty("name") String name,
 			@JsonProperty("modelName") String modelName, 
@@ -161,6 +167,7 @@ public class Car implements JSONSerializable, Loggable {
 			@JsonProperty(value="startCapacity") double startCapacity, 
 			@JsonProperty(value="timestampArrival", required=true) int timestampArrival,
 			@JsonProperty("timestampDeparture") int timestampDeparture, 
+			@JsonProperty("minChargingRequired") int minChargingRequired,
 			@JsonProperty(value="maxCapacity", required=true) double maxCapacity, 
 			@JsonProperty(value="minCurrent", required=true) double minCurrent,
 			@JsonProperty(value="minCurrentPerPhase", required=true) double minCurrentPerPhase, 
@@ -186,7 +193,7 @@ public class Car implements JSONSerializable, Loggable {
 		this.carType = carType;
 		this.timestampArrival = TimeUtil.getTimestampFromSeconds(timestampArrival);
 		this.timestampDeparture = TimeUtil.getTimestampFromSeconds(timestampDeparture);
-
+		this.minChargingRequired = minChargingRequired;
 		this.availableTimeslots = new boolean[24 * 4];
 		int startAvailable = TimeUtil.getTimeslotFromSeconds(timestampArrival); 
 		int endAvailable = TimeUtil.getTimeslotFromSeconds(timestampDeparture); 
@@ -231,7 +238,7 @@ public class Car implements JSONSerializable, Loggable {
 			LocalTime timestampArrival, LocalTime timestampDeparture, double maxCapacity, double minCurrent,
 			double minCurrentPerPhase, double maxCurrent, double maxCurrentPerPhase, boolean suspendable,
 			boolean canUseVariablePower, boolean immediateStart, double minLoadingState, double canLoadPhase1,
-			double canLoadPhase2, double canLoadPhase3, boolean nonlinearCharging, BatteryData batteryData) {
+			double canLoadPhase2, double canLoadPhase3, boolean nonlinearCharging, BatteryData batteryData, int minChargingRequired) {
 		this.id = id;
 		this.name = name;
 		this.modelName = modelName;
@@ -252,7 +259,7 @@ public class Car implements JSONSerializable, Loggable {
 		this.canLoadPhase3 = canLoadPhase3;
 		this.nrOfUsedPhases = (int) (Math.ceil(canLoadPhase1) + Math.ceil(canLoadPhase2) + Math.ceil(canLoadPhase3));
 		this.sumUsedPhases = canLoadPhase1 + canLoadPhase2 + canLoadPhase3;
-
+		this.minChargingRequired = minChargingRequired;
 		this.carBattery = new CarBattery(this, curCapacity, maxCapacity, nonlinearCharging, batteryData);
 		this.sanityCheckPhases(); 
 	}
@@ -267,6 +274,10 @@ public class Car implements JSONSerializable, Loggable {
 		if (this.timestampDeparture == null) 
 			return -1; 
 		return this.timestampDeparture.toSecondOfDay(); 
+	}
+	@JsonGetter("minChargingRequired")
+	public int getMinChargingRequired() {
+		return this.minChargingRequired; 
 	}
 
 	/**

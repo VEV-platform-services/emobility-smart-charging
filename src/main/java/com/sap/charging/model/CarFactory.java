@@ -117,6 +117,7 @@ public class CarFactory implements Loggable {
 	private double canLoadPhase3;
 	private boolean nonlinearCharging;
 	private BatteryData batteryData;
+	private int minChargingRequired;
 	
 	CarFactory() {
 	}
@@ -165,7 +166,7 @@ public class CarFactory implements Loggable {
 		return new Car(id, name, modelName, carType, currentCapa, availableSlots, timestampArrival, timestampDeparture,
 				maxCapa, minCurrent, getMinCurrentPerPhase(), maxCurrent, getMaxCurrentPerPhase(), suspendable,
 				canUseVariablePower, immediateStart, minLoadingState, canLoadPhase1, canLoadPhase2, canLoadPhase3, 
-				nonlinearCharging, batteryData);
+				nonlinearCharging, batteryData, minChargingRequired);
 	}
 
 	public CarFactory id(int id) {
@@ -250,6 +251,11 @@ public class CarFactory implements Loggable {
 	
 	public CarFactory batteryData(BatteryData batteryData) {
 		this.batteryData = batteryData;
+		return this;
+	}
+
+	public CarFactory minChargingRequired(int minChargingRequired) {
+		this.minChargingRequired = minChargingRequired;
 		return this;
 	}
 	

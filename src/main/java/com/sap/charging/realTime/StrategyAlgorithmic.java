@@ -824,15 +824,14 @@ public class StrategyAlgorithmic extends Strategy {
 	}
 
 	private void execute(State state){
-		int minimalCurrent = 6;
 		Fuse rootFuse = state.fuseTree.getRootFuse();
 		double fuseAmperage = rootFuse.getFusePhase(Phase.PHASE_1);
 		int chargingStations = rootFuse.getChargingStationChildren().size();
 		log(2, "Optimizing plans with Faire share policy for fuse size"+fuseAmperage);
 		for (CarAssignment carAssignment : state.getCurrentCarAssignments()) {
 			Car car = carAssignment.car;
-			ChargingStation charger = carAssignment.chargingStation;
-			fairShareScheduler.distributeEnergy(car, minimalCurrent, fuseAmperage/chargingStations, charger);
+						ChargingStation charger = carAssignment.chargingStation;
+			fairShareScheduler.distributeEnergy(car, car.getMinChargingRequired(), fuseAmperage/chargingStations, charger);
 
 			
 		}
