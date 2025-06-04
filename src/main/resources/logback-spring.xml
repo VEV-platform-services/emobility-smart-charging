@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <springProfile name="local,test">
+        <property name="log-appender" value="console"/>
+    </springProfile>
+
+    <property name="CONSOLE_APPENDER" value="console"/>
+    <property name="JSON_APPENDER" value="json"/>
+    <property name="APPENDER" value="${log-appender:-${JSON_APPENDER}}"/>
+
+    <appender name="${CONSOLE_APPENDER}"
+              class="ch.qos.logback.core.ConsoleAppender">
+        <layout class="ch.qos.logback.classic.PatternLayout">
+            <Pattern>
+                %yellow(%d{ISO8601}) %highlight(%-5level) [%blue(%-12.12t)] %yellow(%-25.25C): %msg%n%throwable
+            </Pattern>
+        </layout>
+    </appender>
+
+    <appender name="${JSON_APPENDER}" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder class="net.logstash.logback.encoder.LogstashEncoder">
+            <includeCallerData>true</includeCallerData>
+        </encoder>
+    </appender>
+
+    <!-- ROOT logger -->
+    <root level="info">
+        <appender-ref ref="${APPENDER}" />
+    </root>
+</configuration>
