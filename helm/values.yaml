@@ -5,7 +5,7 @@ image:
 deployment:
   memory:
     request: "256Mi"
-    limit: "256Mi"
+    limit: "512Mi"
   cpu:
     request: 0.1
     limit: 0.4
