@@ -2,3 +2,4 @@ image:
   sha: "sha256:652511c99bbfc3870054508caf60fad452ee896d6adfd0fd3df3705f67aebd92"
 ingress:
   host: 'dev-vev-iq.com'
+  excludeExternalDns: true

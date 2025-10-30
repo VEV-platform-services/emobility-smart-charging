@@ -12,6 +12,7 @@ metadata:
     alb.ingress.kubernetes.io/success-codes: '200'
     alb.ingress.kubernetes.io/healthcheck-path: /health-check
     alb.ingress.kubernetes.io/certificate-arn: {{ .Values.ingress.certificateArn }}
+    external-dns.alpha.kubernetes.io/exclude: {{ .Values.ingress.excludeExternalDns | quote }}
     alb.ingress.kubernetes.io/load-balancer-attributes: access_logs.s3.enabled={{- if .Values.ingress.access_logs_bucket }}true{{- else }}false{{- end }},access_logs.s3.bucket={{ .Values.ingress.access_logs_bucket }},access_logs.s3.prefix=emobility
     kubernetes.io/ingress.class: alb
 spec:

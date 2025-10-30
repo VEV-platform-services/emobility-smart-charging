@@ -9,3 +9,6 @@ deployment:
   cpu:
     request: 0.1
     limit: 0.4
+
+ingress:
+  excludeExternalDns: false
